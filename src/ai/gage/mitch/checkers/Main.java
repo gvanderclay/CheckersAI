@@ -1,4 +1,4 @@
-package sample;
+package ai.gage.mitch.checkers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
