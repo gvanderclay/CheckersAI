@@ -2,7 +2,7 @@ package ai.gage.mitch.checkers.controller;
 
 import ai.gage.mitch.checkers.model.GameBoard;
 import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 
 public class CheckersController {
 
@@ -10,7 +10,11 @@ public class CheckersController {
     private GameBoard gameBoard;
 
     @FXML
-    private Pane boardPane;
+    private GridPane boardPane;
+
+    private void addButtons(GridPane boardPane) {
+
+    }
 
 
 }
