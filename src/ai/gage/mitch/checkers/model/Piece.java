@@ -7,9 +7,26 @@ public class Piece {
 
 
     /* Player that owns this piece */
-    private Player player;
+    private Player owner;
 
-    private boolean isValidMove() {
+
+    /****************************************************************
+     * The constructor that assigns a player to the piece
+     *
+     * @param player current player
+     ****************************************************************/
+    protected Piece(Player player) {
+        this.owner = player;
+    }
+
+    public Player getOwner() {
+        return this.owner;
+    }
+
+    /**
+     * Whether or not the move is valid
+     ***/
+    public boolean isValidMove() {
 
         return false;
     }

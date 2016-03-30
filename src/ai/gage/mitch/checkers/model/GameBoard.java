@@ -11,9 +11,14 @@ public class GameBoard {
     /* 2d array that represents the board */
     private Piece[][] board;
 
+    public GameBoard() {
+
+    }
 
     private Piece[][] getBoard() {
 
         return null;
     }
+
+
 }
