@@ -15,10 +15,12 @@ public class GameBoard {
 
     }
 
-    private Piece[][] getBoard() {
-
-        return null;
+    public Piece[][] getBoard() {
+        return this.board;
     }
 
+    public void fillBoard() {
+
+    }
 
 }
