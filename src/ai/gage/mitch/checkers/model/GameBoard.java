@@ -51,12 +51,15 @@ public class GameBoard {
     }
 
     /**
-     * @param row Row of the piece being checked
-     * @param column Column of the piece being checked
-     * @return Whether or not the given space is occupied
+     * Move a piece on the board
+     * @param move The move to be made
+     * @return Whether or not the move can be made
      */
-    private boolean spaceOccupied(int row, int column){
-        if(board[row][column] != null){
+    public boolean movePiece(Move move){
+        Piece piece = board[move.fromRow][move.fromColumn];
+        if(piece.getOwner() == currentPlayer && piece.isValidMove(move, board)){
+            board[move.fromRow][move.fromColumn] = null;
+            board[move.fromRow][move.fromColumn] = piece;
             return true;
         }
         return false;
