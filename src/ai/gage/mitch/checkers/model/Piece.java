@@ -23,15 +23,21 @@ public class Piece {
         this.owner = player;
     }
 
+    public static void main(String[] args){
+        Move move = new Move(1,1,0,0);
+        System.out.print(new Piece(Player.BLACK).correctDirection(move));
+    }
+
     public Player getOwner() {
         return this.owner;
     }
 
     /*************************************************************************
      * Determines whether or not the move is valid
-	 * @param Move represents the move being taken
+	 * @param move represents the move being taken
+     * @param board represents the board that this piece is on
 	 * ***********************************************************************/
-    public boolean isValidMove(Move move) {
+    public boolean isValidMove(Move move, Piece[][] board) {
 		//If this piece is not a King
 		if(!isKing){
 			if(owner == Player.RED){
@@ -45,7 +51,22 @@ public class Piece {
 		else{
 			//check moves for any direction
 		}
-	
+        return false;
+    }
+
+    /**
+     *
+     * @param move
+     * @return
+     */
+    private boolean correctDirection(Move move){
+        int correctDirection = owner == Player.BLACK ? 1 : -1;
+        if(isKing){
+            return true;
+        }
+        else if(move.toRow - move.fromRow == correctDirection){
+            return true;
+        }
         return false;
     }
 

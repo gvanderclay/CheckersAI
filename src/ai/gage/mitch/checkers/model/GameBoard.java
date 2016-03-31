@@ -18,6 +18,7 @@ public class GameBoard {
 
     public GameBoard() {
         initBoard();
+        currentPlayer = Player.BLACK;
     }
 
     public static void main(String args[]){
@@ -33,16 +34,27 @@ public class GameBoard {
         }
     }
 
+    /**
+     * @return contents of the gameboard
+     */
     public Piece[][] getBoard() {
         return this.board;
     }
 
+    /**
+     * Initializes the board
+     */
     public void initBoard() {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         fillPlayerPieces(Player.BLACK, 0);
         fillPlayerPieces(Player.RED, 5);
     }
 
+    /**
+     * @param row Row of the piece being checked
+     * @param column Column of the piece being checked
+     * @return Whether or not the given space is occupied
+     */
     private boolean spaceOccupied(int row, int column){
         if(board[row][column] != null){
             return true;
