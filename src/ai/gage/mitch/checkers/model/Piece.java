@@ -1,7 +1,7 @@
 package ai.gage.mitch.checkers.model;
 
 /**
- * Created by vandercg on 3/30/16.
+ * Created by Gage & Mitch
  */
 public class Piece {
 
@@ -38,20 +38,15 @@ public class Piece {
      * @param board represents the board that this piece is on
 	 * ***********************************************************************/
     public boolean isValidMove(Move move, Piece[][] board) {
-		//If this piece is not a King
-		if(!isKing){
-			if(owner == Player.RED){
-				//check moves for one direction (SOUTH)
-			}
-			else if(owner == Player.BLACK){
-				//check moves for other direction (NORTH)
-			}
-		}
-		//If this piece is a King
-		else{
-			//check moves for any direction
-		}
-        return false;
+		return correctDirection(move) && move.isDiagonal() && !pieceBlocking(move, board);
+    }
+
+    /**
+     * @param move being made
+     * @return Whether or not the given space is occupied
+     */
+    private boolean pieceBlocking(Move move, Piece[][] board){
+        return board[move.toRow][move.toColumn] != null;
     }
 
     /**
@@ -61,10 +56,7 @@ public class Piece {
      */
     private boolean correctDirection(Move move){
         int correctDirection = owner == Player.BLACK ? 1 : -1;
-        if(isKing){
-            return true;
-        }
-        else if(move.toRow - move.fromRow == correctDirection){
+        if(isKing || move.toRow - move.fromRow == correctDirection){
             return true;
         }
         return false;
