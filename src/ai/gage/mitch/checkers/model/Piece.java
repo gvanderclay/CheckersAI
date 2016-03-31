@@ -28,15 +28,12 @@ public class Piece {
 
     /*************************************************************************
      * Determines whether or not the move is valid
-	 * @param fromRow 		row that the piece is starting from
-	 * @param fromColumn	column that the piece is starting from
-	 * @param toRow			row that the piece is moving to
-	 * @param toColumn		column that the piece is moving to
-     *************************************************************************/
-    public boolean isValidMove(int fromRow, int fromColumn, int toRow, int toColumn) {
+	 * @param Move represents the move being taken
+	 * ***********************************************************************/
+    public boolean isValidMove(Move move) {
 		//If this piece is not a King
 		if(!isKing){
-			if(owner == Player.WHITE){
+			if(owner == Player.RED){
 				//check moves for one direction (SOUTH)
 			}
 			else if(owner == Player.BLACK){

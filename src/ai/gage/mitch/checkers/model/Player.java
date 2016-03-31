@@ -5,7 +5,7 @@ package ai.gage.mitch.checkers.model;
  */
 public enum Player {
 
-    BLACK, WHITE;
+    BLACK, RED;
 
     /**
      * Return the {@code Player} whose turn is next.
@@ -13,6 +13,6 @@ public enum Player {
      * @return the {@code Player} whose turn is next
      */
     public Player next() {
-        return this == BLACK ? WHITE : BLACK;
+        return this == BLACK ? RED : BLACK;
     }
 }
