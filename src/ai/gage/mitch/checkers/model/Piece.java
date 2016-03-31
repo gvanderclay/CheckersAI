@@ -8,8 +8,9 @@ public class Piece {
 
     /* Player that owns this piece */
     private Player owner;
-	
-	/* Is true if the piece has become a King */
+
+
+    /* Is true if the piece has become a King */
 	private boolean isKing;
 
 
@@ -46,5 +47,13 @@ public class Piece {
 		}
 	
         return false;
+    }
+
+    public boolean isKing() {
+        return isKing;
+    }
+
+    public void setKing(boolean king) {
+        isKing = king;
     }
 }

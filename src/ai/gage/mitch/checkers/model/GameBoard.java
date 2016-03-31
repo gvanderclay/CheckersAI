@@ -11,6 +11,11 @@ public class GameBoard {
     /* 2d array that represents the board */
     private Piece[][] board;
 
+    /* Current player */
+    private Player currentPlayer;
+
+
+
     public GameBoard() {
         initBoard();
     }
@@ -38,6 +43,13 @@ public class GameBoard {
         fillPlayerPieces(Player.RED, 5);
     }
 
+    private boolean spaceOccupied(int row, int column){
+        if(board[row][column] != null){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Fill one half of the board for one player
      * @param player Player that is being filled in
@@ -45,10 +57,10 @@ public class GameBoard {
      *              would be 5 and black player start is 0
      */
     private void fillPlayerPieces(Player player, int start){
-        for(int x = start; x < start + 3; x++){
-            for(int y = 0; y < BOARD_SIZE; y++){
-                if((x+y)%2 == 0){
-                    board[x][y] = new Piece(player);
+        for(int row = start; row < start + 3; row++){
+            for(int column = 0; column < BOARD_SIZE; column++){
+                if((row+column)%2 == 0){
+                    board[row][column] = new Piece(player);
                 }
             }
         }
