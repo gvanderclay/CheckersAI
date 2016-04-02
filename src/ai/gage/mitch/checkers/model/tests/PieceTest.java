@@ -24,4 +24,26 @@ public class PieceTest {
         assertFalse(board.getBoard()[2][0].isValidMove(move, board.getBoard()));
     }
 
+    @org.junit.Test
+    public void isValidMove3() throws Exception {
+        GameBoard board = new GameBoard();
+        Move move1 = new Move(2,0,3,1);
+        Move move2 = new Move(5,1,4,0);
+
+        board.movePiece(move1);
+        System.out.println(board);
+        assertFalse(board.movePiece(move2));
+    }
+
+    @org.junit.Test
+    public void movePiece() throws Exception {
+        GameBoard board = new GameBoard();
+        Move move1 = new Move(2,0,3,1);
+        Move move2 = new Move(3,1,4,2);
+        board.movePiece(move1);
+        System.out.println(board);
+        assertFalse(board.movePiece(move2));
+    }
+
+
 }

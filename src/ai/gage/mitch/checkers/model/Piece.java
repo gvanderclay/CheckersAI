@@ -51,6 +51,16 @@ public class Piece {
     }
 
     /**
+     * Whether the move is a jump or not
+     * @param move The move being made
+     * @param board Board being moved on
+     * @return Whether the move is a jump
+     */
+    private boolean isJump(Move move, Piece[][] board){
+        return false;
+    }
+
+    /**
      * Check if the piece is moving in the correct direction
      * @param move
      * @return
@@ -68,11 +78,26 @@ public class Piece {
      * @return whether or not the piece can make a jump
      */
     private boolean canJump(int currentRow, int currentColumn, Piece[][] board){
-        // check if the piece can make a jump in any direction
-        return canJumpDirection(currentRow, currentColumn, 1,1, board) ||
-                canJumpDirection(currentRow, currentColumn, 1,-1,board) ||
-                canJumpDirection(currentRow, currentColumn, -1,1,board) ||
-                canJumpDirection(currentRow, currentColumn, -1,-1,board);
+        // check if the piece can make a jump in correct direction
+        return canJumpCorrectDirection(currentRow, currentColumn, 1, 1, board)||
+                canJumpCorrectDirection(currentRow, currentColumn, 1,-1,board) ||
+                canJumpCorrectDirection(currentRow, currentColumn, -1,1,board) ||
+                canJumpCorrectDirection(currentRow, currentColumn, -1,-1,board);
+    }
+
+    /**
+     * Can jump and the jump is in the correct direction
+     * @param currentRow Current row of the piece
+     * @param currentColumn Current column of the piece
+     * @param rowChange The direction the row is changing
+     * @param columnChange The direction the column is changing
+     * @param board The board that is being moved on
+     * @return Whether the piece can jump in the correct direction
+     */
+    private boolean canJumpCorrectDirection(int currentRow, int currentColumn, int rowChange, int columnChange, Piece [][] board){
+        return canJumpDirection(currentRow, currentColumn, rowChange, columnChange, board) &&
+                correctDirection(
+                        new Move(currentRow, currentColumn, currentRow + rowChange, currentColumn + columnChange));
     }
 
     /**

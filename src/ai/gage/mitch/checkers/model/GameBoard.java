@@ -59,7 +59,8 @@ public class GameBoard {
         Piece piece = board[move.fromRow][move.fromColumn];
         if(piece.getOwner() == currentPlayer && piece.isValidMove(move, board)){
             board[move.fromRow][move.fromColumn] = null;
-            board[move.fromRow][move.fromColumn] = piece;
+            board[move.toRow][move.toColumn] = piece;
+            currentPlayer = currentPlayer.next();
             return true;
         }
         return false;
@@ -79,5 +80,19 @@ public class GameBoard {
                 }
             }
         }
+    }
+
+    public String toString(){
+        String str = "";
+        for(Piece[] pieces: board){
+            for(Piece piece: pieces){
+                if(piece != null)
+                    str += piece.getOwner() + " ";
+                else
+                    str += "EMPTY ";
+            }
+            str += "\n";
+        }
+        return str;
     }
 }
