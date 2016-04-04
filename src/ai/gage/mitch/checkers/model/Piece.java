@@ -38,7 +38,8 @@ public class Piece {
      * @param board represents the board that this piece is on
 	 * ***********************************************************************/
     public boolean isValidMove(Move move, Piece[][] board) {
-		return correctDirection(move) && move.isDiagonal() && !pieceBlocking(move, board) &&
+		System.out.println(correctDirection(move) + "," + move.isDiagonal() + "," + !pieceBlocking(move, board) + "," + !canJump(move.fromRow, move.fromColumn, board));
+        return correctDirection(move) && move.isDiagonal() && !pieceBlocking(move, board) &&
                 !canJump(move.fromRow, move.fromColumn, board);
     }
 
@@ -55,8 +56,10 @@ public class Piece {
      * @param move The move being made
      * @param board Board being moved on
      * @return Whether the move is a jump
+     * TODO How to tell when a move is a jump
      */
     private boolean isJump(Move move, Piece[][] board){
+
         return false;
     }
 
@@ -67,7 +70,7 @@ public class Piece {
      */
     private boolean correctDirection(Move move){
         int correctDirection = owner == Player.BLACK ? 1 : -1;
-        return isKing || move.toRow - move.fromRow == correctDirection;
+        return isKing || move.toRow - move.fromRow / correctDirection > 0;
     }
 
     /**
@@ -76,6 +79,7 @@ public class Piece {
      * @param currentColumn Current column of the piece
      * @param board board the piece is on
      * @return whether or not the piece can make a jump
+     * TODO fix this because when you can jump, you can't make a move
      */
     private boolean canJump(int currentRow, int currentColumn, Piece[][] board){
         // check if the piece can make a jump in correct direction

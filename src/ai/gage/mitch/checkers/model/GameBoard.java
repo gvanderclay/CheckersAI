@@ -87,9 +87,9 @@ public class GameBoard {
         for(Piece[] pieces: board){
             for(Piece piece: pieces){
                 if(piece != null)
-                    str += piece.getOwner() + " ";
+                    str += piece.getOwner().toString().charAt(0) + " ";
                 else
-                    str += "EMPTY ";
+                    str += "X ";
             }
             str += "\n";
         }

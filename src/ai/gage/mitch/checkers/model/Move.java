@@ -18,6 +18,6 @@ public class Move {
      * @return Whether or not the move is diagonal
      */
     public boolean isDiagonal(){
-        return Math.abs(fromRow - toRow) + Math.abs(fromColumn - toColumn) == 2;
+        return Math.abs(fromRow - toRow) == Math.abs(fromColumn - toColumn);
     }
 }

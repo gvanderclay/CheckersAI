@@ -29,10 +29,14 @@ public class PieceTest {
         GameBoard board = new GameBoard();
         Move move1 = new Move(2,0,3,1);
         Move move2 = new Move(5,1,4,0);
-
+        Move move3 = new Move(2,2,3,3);
+        Move move4 = new Move(4,0,2,2);
         board.movePiece(move1);
+        board.movePiece(move2);
+        board.movePiece(move3);
         System.out.println(board);
-        assertFalse(board.movePiece(move2));
+        System.out.println("THIS ONE");
+        assertTrue(board.movePiece(move4));
     }
 
     @org.junit.Test
@@ -41,9 +45,10 @@ public class PieceTest {
         Move move1 = new Move(2,0,3,1);
         Move move2 = new Move(3,1,4,2);
         board.movePiece(move1);
-        System.out.println(board);
         assertFalse(board.movePiece(move2));
     }
+
+
 
 
 }
