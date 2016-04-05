@@ -1,5 +1,7 @@
 package ai.gage.mitch.checkers.model;
 
+import java.util.ArrayList;
+
 /**
  * Holds data that represents the gameboard
  */
@@ -48,6 +50,60 @@ public class GameBoard {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         fillPlayerPieces(Player.BLACK, 0);
         fillPlayerPieces(Player.RED, 5);
+    }
+
+    /**
+     * Return the contents at the point on the board
+     *
+     * @param row    row of the board
+     * @param column column of the board
+     * @return Piece at this point on the board. Null if empty
+     */
+    public Piece pieceAt(int row, int column) {
+        return board[row][column];
+    }
+
+    public ArrayList<Move> getLegalMoves() {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int column = 0; column < BOARD_SIZE; column++) {
+                legalMoves.addAll(getLegalJumps(row, column));
+            }
+        }
+
+        //TODO check for legal moves that aren't jumps
+
+        return legalMoves;
+    }
+
+    /**
+     * Gets all of the jumps a Piece can perform
+     *
+     * @param row    row of the piece
+     * @param column column of the piece
+     * @return
+     */
+    private ArrayList<Move> getLegalJumps(int row, int column) {
+        ArrayList<Move> legalJumps = new ArrayList<Move>();
+        Piece piece = board[row][column];
+        if (piece == null) {
+            return legalJumps;
+        }
+        if (piece.getOwner() == currentPlayer) {
+            if (piece.checkForJump(row, column, row + 1, column + 1, row + 2, column + 2, board)) {
+                legalJumps.add(new Move(row, column, row + 2, column + 2));
+            }
+            if (piece.checkForJump(row, column, row + 1, column + -1, row + 2, column + -2, board)) {
+                legalJumps.add(new Move(row, column, row + 2, column + -2));
+            }
+            if (piece.checkForJump(row, column, row + -1, column + 1, row + -2, column + 2, board)) {
+                legalJumps.add(new Move(row, column, row + -2, column + 2));
+            }
+            if (piece.checkForJump(row, column, row + -1, column + -1, row + -2, column + -2, board)) {
+                legalJumps.add(new Move(row, column, row + -2, column + -2));
+            }
+        }
+        return legalJumps;
     }
 
     /**
