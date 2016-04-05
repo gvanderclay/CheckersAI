@@ -1,7 +1,8 @@
 package ai.gage.mitch.checkers.model;
 
 /**
- * Created by vandercg on 3/30/16.
+ * Class that represents a move on the checker board
+ * Created by Gage Vander Clay and Mitch Couturier
  */
 public class Move {
     public int fromRow, fromColumn, toRow, toColumn;
@@ -14,10 +15,19 @@ public class Move {
         this.toColumn = toColumn;
     }
 
-    /**
-     * @return Whether or not the move is diagonal
-     */
-    public boolean isDiagonal(){
-        return Math.abs(fromRow - toRow) == Math.abs(fromColumn - toColumn);
+    public boolean isJump(){
+        return Math.abs(toRow - fromRow) == 2 && Math.abs(toColumn - fromColumn) == 2;
+    }
+
+    public String toString(){
+        return "From Row: " + fromRow + ", From Column: " + fromColumn
+                            + ", To Row: " + toRow + ", To Column: " + toColumn + "\n";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        Move move = (Move) object;
+        return object != null && object instanceof Move && move.toRow == this.toRow && move.toColumn == this.toColumn
+                && move.fromRow == this.fromRow && move.fromColumn == this.fromColumn;
     }
 }

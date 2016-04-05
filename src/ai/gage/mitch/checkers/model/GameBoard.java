@@ -16,24 +16,17 @@ public class GameBoard {
     /* Current player */
     private Player currentPlayer;
 
-
+    private ArrayList<Move> legalMoves;
 
     public GameBoard() {
         initBoard();
-        currentPlayer = Player.BLACK;
+        this.currentPlayer = Player.BLACK;
+        this.legalMoves = getLegalMoves();
     }
 
     public static void main(String args[]){
         GameBoard game = new GameBoard();
-        for(Piece[] pieces: game.getBoard()){
-            for(Piece piece: pieces){
-                if(piece != null)
-                    System.out.print(piece.getOwner() + " ");
-                else
-                    System.out.print("EMPTY ");
-            }
-            System.out.println();
-        }
+        System.out.println(game.movePiece(new Move(2,0, 3,1)));
     }
 
     /**
@@ -46,7 +39,7 @@ public class GameBoard {
     /**
      * Initializes the board
      */
-    public void initBoard() {
+    private void initBoard() {
         board = new Piece[BOARD_SIZE][BOARD_SIZE];
         fillPlayerPieces(Player.BLACK, 0);
         fillPlayerPieces(Player.RED, 5);
@@ -63,16 +56,53 @@ public class GameBoard {
         return board[row][column];
     }
 
-    public ArrayList<Move> getLegalMoves() {
-        ArrayList<Move> legalMoves = new ArrayList<Move>();
+    private ArrayList<Move> getLegalMoves() {
+        ArrayList<Move> legalMoves = new ArrayList<>();
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int column = 0; column < BOARD_SIZE; column++) {
                 legalMoves.addAll(getLegalJumps(row, column));
             }
         }
+        if(legalMoves.size() == 0){
+            for (int row = 0; row < BOARD_SIZE; row++) {
+                for (int column = 0; column < BOARD_SIZE; column++) {
+                    legalMoves.addAll(getLegalMovesForPiece(row, column));
+                }
+            }
+        }
+        return legalMoves;
+    }
 
-        //TODO check for legal moves that aren't jumps
-
+    /**
+     * Whether or not a piece can make a move. (No jumps included)
+     * @param row row of the piece being checked
+     * @param column column of the piece being checked
+     * @return List of legal moves
+     */
+    private ArrayList<Move> getLegalMovesForPiece(int row, int column){
+        ArrayList<Move> legalMoves = new ArrayList<>();
+        Piece piece = board[row][column];
+        if(piece == null){
+            return legalMoves;
+        }
+        if(piece.getOwner() == currentPlayer){
+            Move move = new Move(row, column, row + 1, column + 1);
+            if(piece.isValidMove(move, board)){
+                legalMoves.add(move);
+            }
+            move = new Move(row, column, row + 1, column - 1);
+            if(piece.isValidMove(move, board)){
+                legalMoves.add(move);
+            }
+            move = new Move(row, column, row - 1, column + 1);
+            if(piece.isValidMove(move, board)){
+                legalMoves.add(move);
+            }
+            move = new Move(row, column, row - 1, column - 1);
+            if(piece.isValidMove(move, board)){
+                legalMoves.add(move);
+            }
+        }
         return legalMoves;
     }
 
@@ -81,25 +111,25 @@ public class GameBoard {
      *
      * @param row    row of the piece
      * @param column column of the piece
-     * @return
+     * @return The legal jumps that a piece can perform
      */
     private ArrayList<Move> getLegalJumps(int row, int column) {
-        ArrayList<Move> legalJumps = new ArrayList<Move>();
+        ArrayList<Move> legalJumps = new ArrayList<>();
         Piece piece = board[row][column];
         if (piece == null) {
             return legalJumps;
         }
         if (piece.getOwner() == currentPlayer) {
-            if (piece.checkForJump(row, column, row + 1, column + 1, row + 2, column + 2, board)) {
+            if (piece.isValidJump(row, column, row + 1, column + 1, row + 2, column + 2, board)){
                 legalJumps.add(new Move(row, column, row + 2, column + 2));
             }
-            if (piece.checkForJump(row, column, row + 1, column + -1, row + 2, column + -2, board)) {
+            if (piece.isValidJump(row, column, row + 1, column + -1, row + 2, column + -2, board)) {
                 legalJumps.add(new Move(row, column, row + 2, column + -2));
             }
-            if (piece.checkForJump(row, column, row + -1, column + 1, row + -2, column + 2, board)) {
+            if (piece.isValidJump(row, column, row + -1, column + 1, row + -2, column + 2, board)) {
                 legalJumps.add(new Move(row, column, row + -2, column + 2));
             }
-            if (piece.checkForJump(row, column, row + -1, column + -1, row + -2, column + -2, board)) {
+            if (piece.isValidJump(row, column, row + -1, column + -1, row + -2, column + -2, board)) {
                 legalJumps.add(new Move(row, column, row + -2, column + -2));
             }
         }
@@ -113,13 +143,24 @@ public class GameBoard {
      */
     public boolean movePiece(Move move){
         Piece piece = board[move.fromRow][move.fromColumn];
-        if(piece.getOwner() == currentPlayer && piece.isValidMove(move, board)){
+        if(legalMoves.contains(move)){
             board[move.fromRow][move.fromColumn] = null;
             board[move.toRow][move.toColumn] = piece;
+            if(move.isJump()){
+                removedJumpedPiece(move);
+            }
             currentPlayer = currentPlayer.next();
+            legalMoves = getLegalMoves();
             return true;
         }
         return false;
+    }
+
+    private void removedJumpedPiece(Move move){
+        int jumpedColumn = (move.toColumn + move.fromColumn) / 2;
+        int jumpedRow = (move.toRow + move.fromRow) / 2;
+        System.out.println(jumpedRow + "," + jumpedColumn);
+        board[jumpedRow][jumpedColumn] = null;
     }
 
     /**
