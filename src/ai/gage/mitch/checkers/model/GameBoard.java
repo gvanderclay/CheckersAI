@@ -16,6 +16,7 @@ public class GameBoard {
     /* Current player */
     private Player currentPlayer;
 
+    /* List of legal moves */
     private ArrayList<Move> legalMoves;
 
     public GameBoard() {
@@ -62,11 +63,13 @@ public class GameBoard {
      */
     public ArrayList<Move> getLegalMoves() {
         ArrayList<Move> legalMoves = new ArrayList<>();
+        // check for legal jumps for all pieces
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int column = 0; column < BOARD_SIZE; column++) {
                 legalMoves.addAll(getLegalJumps(row, column));
             }
         }
+        // if there are legal jumps, other moves aren't possible so don't check for moves that aren't jumps
         if(legalMoves.size() == 0){
             for (int row = 0; row < BOARD_SIZE; row++) {
                 for (int column = 0; column < BOARD_SIZE; column++) {
@@ -120,9 +123,11 @@ public class GameBoard {
     private ArrayList<Move> getLegalJumps(int row, int column) {
         ArrayList<Move> legalJumps = new ArrayList<>();
         Piece piece = board[row][column];
+        // if there isn't a piece in this location, there are no legal jumps
         if (piece == null) {
             return legalJumps;
         }
+        // check if there are legal jumps for this piece
         if (piece.getOwner() == currentPlayer) {
             if (piece.isValidJump(row, column, row + 1, column + 1, row + 2, column + 2, board)){
                 legalJumps.add(new Move(row, column, row + 2, column + 2));
@@ -148,13 +153,21 @@ public class GameBoard {
     public boolean movePiece(Move move){
         Piece piece = board[move.fromRow][move.fromColumn];
         if(legalMoves.contains(move)){
+            // delete the piece from the old location
             board[move.fromRow][move.fromColumn] = null;
+            // put the piece in the new location
             board[move.toRow][move.toColumn] = piece;
+            // If the piece should be kinged, king it
             kingPiece(move.toRow, move.toColumn);
+            // if th move is a jump, delete the piece that is being jumped
             if(move.isJump()){
                 removedJumpedPiece(move);
+                // check for a double jump
                 if(doubleJumpPossible(move.toRow, move.toColumn)){
+                    // if a double jump is possible, update legal moves to only be
+                    // the jumps the piece that just moved can make
                     legalMoves = getLegalJumps(move.toRow, move.toColumn);
+                    // keep the player the same and don't update the legal moves again
                     return true;
                 }
             }
@@ -165,6 +178,11 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     * Make a piece a king if it should be kinged
+     * @param row row of the piece being kinged
+     * @param column column of the piece being kinged
+     */
     private void kingPiece(int row, int column){
         if (currentPlayer == Player.BLACK && row == 7) {
             board[row][column].setKing(true);
@@ -212,6 +230,10 @@ public class GameBoard {
     }
 
 
+    /**
+     * Returns the current player
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
