@@ -56,7 +56,7 @@ public class GameBoard {
         return board[row][column];
     }
 
-    private ArrayList<Move> getLegalMoves() {
+    public ArrayList<Move> getLegalMoves() {
         ArrayList<Move> legalMoves = new ArrayList<>();
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int column = 0; column < BOARD_SIZE; column++) {
@@ -148,6 +148,10 @@ public class GameBoard {
             board[move.toRow][move.toColumn] = piece;
             if(move.isJump()){
                 removedJumpedPiece(move);
+                if(doubleJumpPossible(move.toRow, move.toColumn)){
+                    legalMoves = getLegalJumps(move.toRow, move.toColumn);
+                    return true;
+                }
             }
             currentPlayer = currentPlayer.next();
             legalMoves = getLegalMoves();
@@ -156,10 +160,14 @@ public class GameBoard {
         return false;
     }
 
+    private boolean doubleJumpPossible(int row, int column){
+        ArrayList doubleJumps = getLegalJumps(row, column);
+        return doubleJumps.size() > 0;
+    }
+
     private void removedJumpedPiece(Move move){
         int jumpedColumn = (move.toColumn + move.fromColumn) / 2;
         int jumpedRow = (move.toRow + move.fromRow) / 2;
-        System.out.println(jumpedRow + "," + jumpedColumn);
         board[jumpedRow][jumpedColumn] = null;
     }
 
@@ -179,11 +187,16 @@ public class GameBoard {
         }
     }
 
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public String toString(){
         String str = "";
-        for(Piece[] pieces: board){
-            for(Piece piece: pieces){
-                if(piece != null)
+        for(Piece[] pieces: board) {
+            for (Piece piece : pieces) {
+                if (piece != null)
                     str += piece.getOwner().toString().charAt(0) + " ";
                 else
                     str += "X ";

@@ -112,7 +112,7 @@ public class Piece {
      */
     private boolean correctDirection(Move move){
         int correctDirection = owner == Player.BLACK ? 1 : -1;
-        return isKing || move.toRow - move.fromRow / correctDirection > 0;
+        return isKing || (move.toRow - move.fromRow) / correctDirection > 0;
     }
 
 
