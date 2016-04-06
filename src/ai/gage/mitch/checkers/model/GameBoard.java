@@ -56,6 +56,10 @@ public class GameBoard {
         return board[row][column];
     }
 
+    /**
+     * Get an ArrayList of all the legal moves
+     * @return list of legal moves
+     */
     public ArrayList<Move> getLegalMoves() {
         ArrayList<Move> legalMoves = new ArrayList<>();
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -146,6 +150,7 @@ public class GameBoard {
         if(legalMoves.contains(move)){
             board[move.fromRow][move.fromColumn] = null;
             board[move.toRow][move.toColumn] = piece;
+            kingPiece(move.toRow, move.toColumn);
             if(move.isJump()){
                 removedJumpedPiece(move);
                 if(doubleJumpPossible(move.toRow, move.toColumn)){
@@ -160,11 +165,30 @@ public class GameBoard {
         return false;
     }
 
+    private void kingPiece(int row, int column){
+        if (currentPlayer == Player.BLACK && row == 7) {
+            board[row][column].setKing(true);
+        }
+        else if(currentPlayer == Player.RED && row == 0){
+            board[row][column].setKing(true);
+        }
+    }
+
+    /**
+     * Check if a jump is possible after a previous jump
+     * @param row row of the piece being checked
+     * @param column column of the piece being checked
+     * @return whether a double jump is possible
+     */
     private boolean doubleJumpPossible(int row, int column){
         ArrayList doubleJumps = getLegalJumps(row, column);
         return doubleJumps.size() > 0;
     }
 
+    /**
+     * Remove the jumped piece
+     * @param move Jump that was made
+     */
     private void removedJumpedPiece(Move move){
         int jumpedColumn = (move.toColumn + move.fromColumn) / 2;
         int jumpedRow = (move.toRow + move.fromRow) / 2;
@@ -197,9 +221,13 @@ public class GameBoard {
         for(Piece[] pieces: board) {
             for (Piece piece : pieces) {
                 if (piece != null)
-                    str += piece.getOwner().toString().charAt(0) + " ";
+                    if(piece.isKing()){
+                        str += piece.getOwner().toString().charAt(0) + "K ";
+                    }else {
+                        str += piece.getOwner().toString().charAt(0) + "  ";
+                    }
                 else
-                    str += "X ";
+                    str += "X  ";
             }
             str += "\n";
         }

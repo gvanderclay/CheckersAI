@@ -59,7 +59,6 @@ public class GameBoardTest {
         game.movePiece(new Move(5,1,4,2));
         game.movePiece(new Move(2,4,3,5));
         assertTrue(game.movePiece(new Move(4,2,2,0)));
-        System.out.println(game.toString());
     }
 
     @Test
@@ -73,8 +72,27 @@ public class GameBoardTest {
         game.movePiece(new Move(0,2,1,1));
         game.movePiece(new Move(6,0,5,1));
         game.movePiece(new Move(2,4,3,3));
+        assertTrue(game.movePiece(new Move(4,6,2,4)) && game.movePiece(new Move(2,4,0,2)));
+    }
+
+    @Test
+    public void testMoveKing() throws Exception {
+        game.movePiece(new Move(2,0,3,1));
+        game.movePiece(new Move(5,7,4,6));
+        game.movePiece(new Move(2,6,3,5));
+        game.movePiece(new Move(6,6,5,7));
+        game.movePiece(new Move(1,1,2,0));
+        game.movePiece(new Move(5,1,4,0));
+        game.movePiece(new Move(0,2,1,1));
+        game.movePiece(new Move(6,0,5,1));
+        game.movePiece(new Move(2,4,3,3));
         game.movePiece(new Move(4,6,2,4));
         game.movePiece(new Move(2,4,0,2));
+        game.movePiece(new Move(0,4,1,3));
+        assertTrue(game.movePiece(new Move(0,2,2,4)) && game.movePiece(new Move(2,4,4,2)));
         System.out.println(game);
+        System.out.println(game.getLegalMoves());
     }
+
+
 }
