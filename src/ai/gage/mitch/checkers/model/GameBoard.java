@@ -19,10 +19,14 @@ public class GameBoard {
     /* List of legal moves */
     private ArrayList<Move> legalMoves;
 
+    /* Boolean that represents if the game is over or not */
+    private boolean gameOver;
+
     public GameBoard() {
         initBoard();
         this.currentPlayer = Player.BLACK;
         this.legalMoves = getLegalMoves();
+        this.gameOver = false;
     }
 
     public static void main(String args[]){
@@ -173,9 +177,16 @@ public class GameBoard {
             }
             currentPlayer = currentPlayer.next();
             legalMoves = getLegalMoves();
+            checkGameOverStatus();
             return true;
         }
         return false;
+    }
+
+
+    private boolean checkGameOverStatus(){
+        gameOver = legalMoves.size() == 0;
+        return gameOver;
     }
 
     /**
@@ -236,6 +247,14 @@ public class GameBoard {
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Getter for the game over status
+     * @return whether or not the game is over
+     */
+    public boolean isGameOver(){
+        return gameOver;
     }
 
     public String toString(){
