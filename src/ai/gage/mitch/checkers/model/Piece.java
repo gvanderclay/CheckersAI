@@ -56,8 +56,8 @@ public class Piece {
      * @param column1 column of the piece doing the jump
      * @param row2 row of the piece being jumped
      * @param column2 column of the piece being jumped
-     * @param row3 row of the board being jumped too
-     * @param column3 column of the board being jumped too
+     * @param row3 row of the board being jumped to
+     * @param column3 column of the board being jumped to
      * @param board board that jump is being performed on
      * @return Whether or not a piece can jump
      */
