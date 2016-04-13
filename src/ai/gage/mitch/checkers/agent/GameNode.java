@@ -4,6 +4,9 @@ import ai.gage.mitch.checkers.model.GameBoard;
 import ai.gage.mitch.checkers.model.Piece;
 import ai.gage.mitch.checkers.model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class will represent a node in the game tree. It will also contain data so alpha beta pruning can be done
  * Created by gvanderclay on 4/12/16.
@@ -22,16 +25,19 @@ public class GameNode {
     // state of the game
     private GameBoard game;
 
+    // children of this node
+    private List<GameNode> children;
+
     public GameNode(int alpha, int beta, GameBoard game, boolean isMaximizer) {
         this.alpha = alpha;
         this.beta = beta;
         this.game = game;
         this.isMaximizer = isMaximizer;
+        this.children = new ArrayList<GameNode>();
     }
 
     public static void main(String[] args) {
-        GameNode node = new GameNode(2342342, 2342424, new GameBoard(), true);
-        System.out.println(node.getValue());
+
     }
 
     public int getAlpha() {
@@ -42,6 +48,19 @@ public class GameNode {
         return this.beta;
     }
 
+    public void addChild(GameNode node) {
+        children.add(node);
+    }
+
+    public boolean hasChildren() {
+        return children.size() > 0;
+    }
+
+    /**
+     * get the value of the node at this point
+     *
+     * @return the value of the board
+     */
     public int getValue() {
         int[] pieceCount = countPieces(game.getCurrentPlayer());
         return pieceCount[0] - pieceCount[1];
