@@ -250,6 +250,13 @@ public class GameBoard {
     }
 
     /**
+     * @return Size of the board
+     */
+    public int getBoardSize() {
+        return BOARD_SIZE;
+    }
+
+    /**
      * Getter for the game over status
      * @return whether or not the game is over
      */
