@@ -15,4 +15,10 @@ public enum Player {
     public Player next() {
         return this == BLACK ? RED : BLACK;
     }
+    public String toString(){
+        if(this == BLACK)
+            return "BLACK PLAYER'S TURN";
+        else
+            return "RED PLAYER'S TURN";
+    }
 }

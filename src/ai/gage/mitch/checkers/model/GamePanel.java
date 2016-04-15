@@ -1,6 +1,7 @@
 package ai.gage.mitch.checkers.model;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 /*********************************************************
@@ -38,8 +39,20 @@ public class GamePanel extends JPanel {
 	/** the panel that displays whose turn it is **/
 	private JPanel turnPanel;
 	
+	/** the label that contains the title of the game **/
+	private JLabel title;
+
+	/** the label that contains the current players turn **/
+	private JLabel turn;
+	
 	/** the Icons for the game pieces **/
 	private ImageIcon BlackPiece, RedPiece, BlackKing, RedKing;
+	
+	/** is true when a piece has already been selected and is waiting to be moved **/
+	private boolean isSelected;
+	
+	/** holds the coordinates for the last piece selected **/
+	private int selectedRow, selectedCol;
 	
 	/********************************************************************************
 	 * The constructor that creates the Checkers game GUI
@@ -48,14 +61,18 @@ public class GamePanel extends JPanel {
 		// instantiates all instance variables
 		board = new JButton[ROWS][COLUMNS];
 		game = new GameBoard();
+		buttonListener = new ButtonListener();
 		masterPanel= new JPanel();
 		mainPanel = new JPanel();
 		titlePanel = new JPanel();
 		turnPanel = new JPanel();
-		BlackPiece = new ImageIcon("BlackPiece.gif");;
-		RedPiece = new ImageIcon("RedPiece.gif");;
-		BlackKing = new ImageIcon("BlackKing.gif");;
-		RedKing = new ImageIcon("RedKing.gif");;
+		title = new JLabel("AI Checkers");
+		turn = new JLabel(game.getCurrentPlayer().toString());
+		BlackPiece = new ImageIcon("BlackPiece.gif");
+		RedPiece = new ImageIcon("RedPiece.gif");
+		BlackKing = new ImageIcon("BlackKing.gif");
+		RedKing = new ImageIcon("RedKing.gif");
+		isSelected = false;
 		
 		// creates the game board
 		for (int row = 0; row < ROWS; row++) {
@@ -67,6 +84,19 @@ public class GamePanel extends JPanel {
 			}
 		}
 		displayBoard();
+		
+		// sets the layout of the GUI
+		titlePanel.add(title);
+		turnPanel.add(turn);
+		mainPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		masterPanel.setLayout(new BorderLayout(10, 10));
+		masterPanel.add(BorderLayout.CENTER, mainPanel);
+		masterPanel.add(BorderLayout.NORTH, titlePanel);
+		masterPanel.add(BorderLayout.SOUTH, turnPanel);
+		titlePanel.setBackground(Color.BLACK);
+		masterPanel.setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
+		add(masterPanel);
 	}
 	
 	/***********************************************************************
@@ -77,14 +107,14 @@ public class GamePanel extends JPanel {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLUMNS; col++) {
 				//displays black pieces
-				if(game.pieceAt(row,col).getOwner() == Player.BLACK){
+				if(game.pieceAt(row,col) != null && game.pieceAt(row,col).getOwner() == Player.BLACK){
 					if(game.pieceAt(row,col).isKing())
 						board[row][col].setIcon(BlackKing);
 					else
 						board[row][col].setIcon(BlackPiece);
 				}
 				//displays red pieces
-				else if(game.pieceAt(row,col).getOwner() == Player.RED){
+				else if(game.pieceAt(row,col) != null && game.pieceAt(row,col).getOwner() == Player.RED){
 					if(game.pieceAt(row,col).isKing())
 						board[row][col].setIcon(RedKing);
 					else
@@ -94,12 +124,11 @@ public class GamePanel extends JPanel {
 					board[row][col].setIcon(null);
 				}
 				
-				
 				// makes a checkered board
 				if ((row % 2) == (col % 2))
-					board[row][col].setBackground(Color.WHITE);
-				else
 					board[row][col].setBackground(Color.DARK_GRAY);
+				else
+					board[row][col].setBackground(Color.WHITE);
 			}
 		}
 	}
@@ -112,10 +141,47 @@ public class GamePanel extends JPanel {
 			for (int row = 0; row < ROWS; row++) {
 				for (int col = 0; col < COLUMNS; col++) {
 					if (e.getSource() == board[row][col]) {
-						
+						//if this is the first piece being selected
+						if(!isSelected){
+							//if the piece selected is the current player's or a blank space, do nothing
+							if(game.getBoard()[row][col] == null
+							   || game.getCurrentPlayer() != game.getBoard()[row][col].getOwner()){
+								return;
+							}
+							//otherwise
+							else{
+								isSelected = true;
+								board[row][col].setBackground(Color.YELLOW);
+								selectedRow = row;
+								selectedCol = col;
+							}
+						}
+						//if this is the the place on the board you want to move a piece to
+						else{
+							Move m1 = new Move(selectedRow, selectedCol, row, col);
+							game.movePiece(m1);
+							turn.setText(game.getCurrentPlayer().toString());
+							displayBoard();
+							isSelected = false;
+						}
 					}
 				}
 			}
 		}
+	}
+
+	/*****************************************************************
+	 * Creates a GamePanel object and displays the game.
+	 *****************************************************************/
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Checkers Game");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		GamePanel panel = new GamePanel();
+		frame.getContentPane().add(panel);
+
+		frame.pack();
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 	}
 }
