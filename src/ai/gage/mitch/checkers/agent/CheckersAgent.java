@@ -19,6 +19,14 @@ public class CheckersAgent {
     private GameNode headNode;
 
 
+    /**
+     * Method that steps through the tree and returns the best move
+     * @param node
+     * @param depth
+     * @param alpha
+     * @param beta
+     * @return
+     */
     public Move alphaBeta(GameNode node, int depth, int alpha, int beta) {
 
         return null;
