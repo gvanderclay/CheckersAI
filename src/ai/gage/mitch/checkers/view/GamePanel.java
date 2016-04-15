@@ -1,4 +1,8 @@
-package ai.gage.mitch.checkers.model;
+package ai.gage.mitch.checkers.view;
+
+import ai.gage.mitch.checkers.model.GameBoard;
+import ai.gage.mitch.checkers.model.Move;
+import ai.gage.mitch.checkers.model.Player;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
