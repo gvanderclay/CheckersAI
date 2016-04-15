@@ -1,12 +1,9 @@
 package ai.gage.mitch.checkers.model;
 
 import java.awt.*;
-<<<<<<< HEAD
 import java.awt.event.*;
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
->>>>>>> 74b35f868b352196cfb7fbe1b4a72b6e78af6da0
 import javax.swing.*;
 
 /*********************************************************
@@ -71,20 +68,13 @@ public class GamePanel extends JPanel {
 		mainPanel = new JPanel();
 		titlePanel = new JPanel();
 		turnPanel = new JPanel();
-<<<<<<< HEAD
 		title = new JLabel("AI Checkers");
 		turn = new JLabel(game.getCurrentPlayer().toString());
-		BlackPiece = new ImageIcon("BlackPiece.gif");
-		RedPiece = new ImageIcon("RedPiece.gif");
-		BlackKing = new ImageIcon("BlackKing.gif");
-		RedKing = new ImageIcon("RedKing.gif");
 		isSelected = false;
-=======
 		BlackPiece = new ImageIcon("images/BlackPiece.gif");;
 		RedPiece = new ImageIcon("images/RedPiece.gif");;
 		BlackKing = new ImageIcon("images/BlackKing.gif");;
 		RedKing = new ImageIcon("images/RedKing.gif");;
->>>>>>> 74b35f868b352196cfb7fbe1b4a72b6e78af6da0
 		
 		// creates the game board
 		for (int row = 0; row < ROWS; row++) {
