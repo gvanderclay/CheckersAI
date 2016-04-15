@@ -1,6 +1,8 @@
 package ai.gage.mitch.checkers.model;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /*********************************************************
@@ -52,10 +54,10 @@ public class GamePanel extends JPanel {
 		mainPanel = new JPanel();
 		titlePanel = new JPanel();
 		turnPanel = new JPanel();
-		BlackPiece = new ImageIcon("BlackPiece.gif");;
-		RedPiece = new ImageIcon("RedPiece.gif");;
-		BlackKing = new ImageIcon("BlackKing.gif");;
-		RedKing = new ImageIcon("RedKing.gif");;
+		BlackPiece = new ImageIcon("images/BlackPiece.gif");;
+		RedPiece = new ImageIcon("images/RedPiece.gif");;
+		BlackKing = new ImageIcon("images/BlackKing.gif");;
+		RedKing = new ImageIcon("images/RedKing.gif");;
 		
 		// creates the game board
 		for (int row = 0; row < ROWS; row++) {
