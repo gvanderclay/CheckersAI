@@ -96,11 +96,11 @@ public class GamePanel extends JPanel {
 		int returnValue = JOptionPane.showOptionDialog(null, "Please choose an AI difficulty", "Difficulty",
 				JOptionPane.DEFAULT_OPTION, 0, null, difButtons, difButtons[0]);
 		if(returnValue == 0) {
-			difficulty = 4;
+			difficulty = 2;
 		}else if(returnValue == 1) {
-			difficulty = 7;
+			difficulty = 4;
 		}else if(returnValue == 2){
-			difficulty = 10;
+			difficulty = 8;
 		}else{
 			difficulty = 4;
 		}
@@ -179,6 +179,7 @@ public class GamePanel extends JPanel {
 			System.out.println("OOOOPS");
 		}
 		Move nextMove = agent.getNextMove(difficulty);
+		System.out.println(nextMove);
 		board[nextMove.fromRow][nextMove.fromColumn].doClick();
 		try {
 			TimeUnit.SECONDS.sleep(1);
