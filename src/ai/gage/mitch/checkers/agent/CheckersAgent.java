@@ -47,7 +47,7 @@ public class CheckersAgent {
             System.out.println(game.getCurrentPlayer());
             System.out.println(game);
             long before = System.currentTimeMillis() / 1000;
-            Move move = ai.getNextMove(11);
+            Move move = ai.getNextMove(4);
             long after = System.currentTimeMillis() / 1000;
             System.out.println(after - before);
             System.out.println(move);
@@ -58,7 +58,7 @@ public class CheckersAgent {
             System.out.println(game.getCurrentPlayer());
             System.out.println(game);
             before = System.currentTimeMillis() / 1000;
-            move = ai2.getNextMove(11);
+            move = ai.getNextMove(4);
             after = System.currentTimeMillis() / 1000;
             System.out.println(after - before);
             System.out.println(move);
