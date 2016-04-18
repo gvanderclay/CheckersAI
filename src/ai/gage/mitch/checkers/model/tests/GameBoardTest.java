@@ -2,7 +2,6 @@ package ai.gage.mitch.checkers.model.tests;
 
 import ai.gage.mitch.checkers.model.GameBoard;
 import ai.gage.mitch.checkers.model.Move;
-import ai.gage.mitch.checkers.model.Piece;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -74,10 +74,10 @@ public class GamePanel extends JPanel {
 		title = new JLabel("AI Checkers");
 		turn = new JLabel(game.getCurrentPlayer().toString());
 		isSelected = false;
-		BlackPiece = new ImageIcon("images/BlackPiece.gif");;
-		RedPiece = new ImageIcon("images/RedPiece.gif");;
-		BlackKing = new ImageIcon("images/BlackKing.gif");;
-		RedKing = new ImageIcon("images/RedKing.gif");;
+		BlackPiece = new ImageIcon("images/BlackPiece.gif");
+		RedPiece = new ImageIcon("images/RedPiece.gif");
+		BlackKing = new ImageIcon("images/BlackKing.gif");
+		RedKing = new ImageIcon("images/RedKing.gif");
 		
 		// creates the game board
 		for (int row = 0; row < ROWS; row++) {

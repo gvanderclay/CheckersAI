@@ -3,8 +3,6 @@ package ai.gage.mitch.checkers.agent;
 import ai.gage.mitch.checkers.model.GameBoard;
 import ai.gage.mitch.checkers.model.Move;
 import ai.gage.mitch.checkers.model.Player;
-import com.sun.xml.internal.stream.Entity;
-import com.sun.xml.internal.ws.api.model.CheckedException;
 
 /**
  * This class contains the agent that will play Checkers
@@ -24,13 +22,23 @@ public class CheckersAgent {
     // Player that the agent is playing
     private Player player;
 
+    /**
+     * Constructor that sets the player and game of the AI
+     * @param player Player of the agent
+     * @param game Game the agent is playing on
+     */
     public CheckersAgent(Player player, GameBoard game){
         this.player = player;
         this.game = game;
-        this.headNode = new GameNode(Integer.MAX_VALUE, Integer.MIN_VALUE, this.game, true);
+        this.headNode = new GameNode(this.game, true);
 
     }
 
+
+    /**
+     * Main method for testing
+     * @param args
+     */
     public static void main(String args[]){
         GameBoard game = new GameBoard();
         CheckersAgent ai = new CheckersAgent(Player.BLACK, game);
@@ -38,7 +46,10 @@ public class CheckersAgent {
         while(!game.isGameOver()){
             System.out.println(game.getCurrentPlayer());
             System.out.println(game);
-            Move move = ai.getNextMove(10);
+            long before = System.currentTimeMillis() / 1000;
+            Move move = ai.getNextMove(11);
+            long after = System.currentTimeMillis() / 1000;
+            System.out.println(after - before);
             System.out.println(move);
             game.movePiece(move);
             if(game.isGameOver()){
@@ -46,42 +57,27 @@ public class CheckersAgent {
             }
             System.out.println(game.getCurrentPlayer());
             System.out.println(game);
-            move = ai2.getNextMove(10);
+            before = System.currentTimeMillis() / 1000;
+            move = ai2.getNextMove(11);
+            after = System.currentTimeMillis() / 1000;
+            System.out.println(after - before);
             System.out.println(move);
             game.movePiece(move);
         }
-//        int i = 0;
-//        System.out.println(game.getCurrentPlayer());
-//        while(!game.isGameOver()){
-//            ai.headNode.updateGame(game);
-//            ai2.headNode.updateGame(game);
-//            int x = ai.alphaBeta(ai.headNode, 7, Integer.MIN_VALUE, Integer.MAX_VALUE);
-//            for(GameNode node: ai.headNode.getChildren()){
-//                if(node.getValue() == x){
-//                    System.out.println(game.movePiece(node.getMove()));
-//                    System.out.println(game);
-//                    break;
-//                }
-//            }
-//            ai.headNode.updateGame(game);
-//            ai2.headNode.updateGame(game);
-//            int y = ai2.alphaBeta(ai2.headNode, 7, Integer.MIN_VALUE, Integer.MAX_VALUE);
-//            for(GameNode node: ai2.headNode.getChildren()){
-//                if(node.getValue() == y){
-//                    System.out.println(game.movePiece(node.getMove()));
-//                    System.out.println(game);
-//                    break;
-//                }
-//            }
-//            ai.headNode.clearChildren();
-//            ai2.headNode.clearChildren();
-//        }
     }
 
+    /**
+     * Gets the next optimal move
+     * @param depth How deep to make the search tree
+     * @return
+     */
     public Move getNextMove(int depth){
+        // reset the head node before getting the next move
         this.headNode.updateGame(this.game);
         this.headNode.clearChildren();
+        // get the heuristic value of the best node
         int moveIndex = alphaBeta(headNode, depth, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        // Go through possible moves and choose one that matches our best hueristic guess
         for(GameNode node: this.headNode.getChildren()){
             if(node.getValue() == moveIndex){
                 return node.getMove();
@@ -93,6 +89,7 @@ public class CheckersAgent {
 
     /**
      * Method that steps through the tree and returns the best move
+     * Used https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#Pseudocode as a reference
      * @param node
      * @param depth
      * @param alpha

@@ -1,7 +1,8 @@
 package ai.gage.mitch.checkers.model;
 
 /**
- * Created by vandercg on 3/30/16.
+ * Enum that represents a player
+ * Created by Gage Vander Clay and Mitch Couturier on 3/30/16.
  */
 public enum Player {
 
