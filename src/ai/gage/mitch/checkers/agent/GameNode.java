@@ -1,6 +1,7 @@
 package ai.gage.mitch.checkers.agent;
 
 import ai.gage.mitch.checkers.model.GameBoard;
+import ai.gage.mitch.checkers.model.Move;
 import ai.gage.mitch.checkers.model.Piece;
 import ai.gage.mitch.checkers.model.Player;
 
@@ -19,6 +20,8 @@ public class GameNode {
     // maximum upper bound of possible solutions
     private int beta;
 
+    private int value;
+
     // whether or not this node is a maximizer
     private boolean isMaximizer;
 
@@ -28,24 +31,20 @@ public class GameNode {
     // children of this node
     private List<GameNode> children;
 
+    private Move move;
+
     public GameNode(int alpha, int beta, GameBoard game, boolean isMaximizer) {
         this.alpha = alpha;
         this.beta = beta;
         this.game = game;
         this.isMaximizer = isMaximizer;
         this.children = new ArrayList<GameNode>();
+        this.value = getHeuristic();
+        this.move = null;
     }
 
     public static void main(String[] args) {
 
-    }
-
-    public int getAlpha() {
-        return this.alpha;
-    }
-
-    public int getBeta() {
-        return this.beta;
     }
 
     public void addChild(GameNode node) {
@@ -61,9 +60,55 @@ public class GameNode {
      *
      * @return the value of the board
      */
-    public int getValue() {
+    public int getHeuristic() {
         int[] pieceCount = countPieces(game.getCurrentPlayer());
         return pieceCount[0] - pieceCount[1];
+    }
+
+    public GameBoard getGame(){
+        return this.game;
+    }
+
+    public void updateGame(GameBoard game){
+        this.game = game;
+    }
+
+    public int getValue(){
+        return this.value;
+    }
+
+    public void setValue(int value){
+        this.value = value;
+    }
+
+    public boolean isMaximizer(){
+        return this.isMaximizer;
+    }
+
+    public void setMove(Move move){
+        this.move = move;
+    }
+
+    public Move getMove(){
+        return this.move;
+    }
+
+    public void addChildren(){
+        for(Move move : this.game.getLegalMoves()){
+            GameBoard nextGame = new GameBoard(this.game);
+            nextGame.movePiece(move);
+            GameNode node = new GameNode(this.alpha, this.beta, nextGame, !isMaximizer);
+            node.setMove(move);
+            this.addChild(node);
+        }
+    }
+
+    public void clearChildren(){
+        this.children = new ArrayList<>();
+    }
+
+    public List<GameNode> getChildren(){
+        return this.children;
     }
 
     /**

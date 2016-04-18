@@ -35,6 +35,6 @@ public class GameNodeTest {
         game.movePiece(new Move(4, 6, 2, 4));
         game.movePiece(new Move(2, 4, 0, 2));
         GameNode node = new GameNode(2342342, 2342342, game, true);
-        assertTrue(node.getValue() == -3);
+        assertTrue(node.getHeuristic() == -3);
     }
 }
