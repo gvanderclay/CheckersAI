@@ -99,7 +99,7 @@ public class CheckersAgent {
     private int alphaBeta(GameNode node, int depth, int alpha, int beta) {
         node.addChildren();
         if(!node.hasChildren() || depth == 0){
-            return node.getHeuristic();
+            return node.getHeuristic(player);
         }
         if(node.isMaximizer()){
             int value = Integer.MIN_VALUE;

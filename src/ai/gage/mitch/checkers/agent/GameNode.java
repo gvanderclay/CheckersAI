@@ -67,6 +67,16 @@ public class GameNode {
     }
 
     /**
+     * get the value of the node at this point
+     *
+     * @return the value of the board
+     */
+    public int getHeuristic(Player player) {
+        int[] pieceCount = countPieces(player);
+        return pieceCount[0] - pieceCount[1];
+    }
+
+    /**
      * Get the gameboard associated with this node
      * @return
      */
