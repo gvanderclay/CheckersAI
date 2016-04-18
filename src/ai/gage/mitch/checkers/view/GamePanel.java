@@ -243,7 +243,7 @@ public class GamePanel extends JPanel {
 										+game.getCurrentPlayer().next().toString()
 										+" WINS!!!");
 								turn.setText("GAME OVER");
-								turn.setForeground(Color.CYAN);
+								turn.setForeground(Color.BLUE);
 							}
 						}
 						return;
