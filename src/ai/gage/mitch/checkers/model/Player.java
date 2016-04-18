@@ -18,8 +18,8 @@ public enum Player {
     }
     public String toString(){
         if(this == BLACK)
-            return "BLACK PLAYER'S TURN";
+            return "BLACK PLAYER";
         else
-            return "RED PLAYER'S TURN";
+            return "RED PLAYER";
     }
 }

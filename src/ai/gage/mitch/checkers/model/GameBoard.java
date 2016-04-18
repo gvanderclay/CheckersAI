@@ -302,7 +302,7 @@ public class GameBoard {
                         str += piece.getOwner().toString().charAt(0) + "  ";
                     }
                 else
-                    str += "X  ";
+                    str += "_  ";
             }
             str += "\n";
         }
