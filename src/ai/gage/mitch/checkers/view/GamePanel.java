@@ -1,7 +1,14 @@
-package ai.gage.mitch.checkers.model;
+package ai.gage.mitch.checkers.view;
+
+import ai.gage.mitch.checkers.model.GameBoard;
+import ai.gage.mitch.checkers.model.Move;
+import ai.gage.mitch.checkers.model.Player;
 
 import java.awt.*;
+<<<<<<< HEAD:src/ai/gage/mitch/checkers/model/GamePanel.java
 import java.awt.event.*;
+=======
+>>>>>>> a5f2ad18209e4544711f9eb66fbe5cb981281d55:src/ai/gage/mitch/checkers/view/GamePanel.java
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -70,15 +77,18 @@ public class GamePanel extends JPanel {
 		turnPanel = new JPanel();
 		title = new JLabel("AI Checkers");
 		turn = new JLabel(game.getCurrentPlayer().toString());
-		BlackPiece = new ImageIcon("BlackPiece.gif");
-		RedPiece = new ImageIcon("RedPiece.gif");
-		BlackKing = new ImageIcon("BlackKing.gif");
-		RedKing = new ImageIcon("RedKing.gif");
 		isSelected = false;
+<<<<<<< HEAD:src/ai/gage/mitch/checkers/model/GamePanel.java
 		BlackPiece = new ImageIcon("images/BlackPiece.gif");;
 		RedPiece = new ImageIcon("images/RedPiece.gif");;
 		BlackKing = new ImageIcon("images/BlackKing.gif");;
 		RedKing = new ImageIcon("images/RedKing.gif");;
+=======
+		BlackPiece = new ImageIcon("images/BlackPiece.gif");
+		RedPiece = new ImageIcon("images/RedPiece.gif");
+		BlackKing = new ImageIcon("images/BlackKing.gif");
+		RedKing = new ImageIcon("images/RedKing.gif");
+>>>>>>> a5f2ad18209e4544711f9eb66fbe5cb981281d55:src/ai/gage/mitch/checkers/view/GamePanel.java
 		
 		// creates the game board
 		for (int row = 0; row < ROWS; row++) {

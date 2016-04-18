@@ -1,6 +1,7 @@
 package ai.gage.mitch.checkers.agent;
 
 import ai.gage.mitch.checkers.model.GameBoard;
+import ai.gage.mitch.checkers.model.Move;
 import ai.gage.mitch.checkers.model.Piece;
 import ai.gage.mitch.checkers.model.Player;
 
@@ -13,11 +14,7 @@ import java.util.List;
  */
 public class GameNode {
 
-    // minimum upper bound of possible solutions
-    private int alpha;
-
-    // maximum upper bound of possible solutions
-    private int beta;
+    private int value;
 
     // whether or not this node is a maximizer
     private boolean isMaximizer;
@@ -28,30 +25,33 @@ public class GameNode {
     // children of this node
     private List<GameNode> children;
 
-    public GameNode(int alpha, int beta, GameBoard game, boolean isMaximizer) {
-        this.alpha = alpha;
-        this.beta = beta;
+    // move that is associated with this game state
+    private Move move;
+
+    public GameNode(GameBoard game, boolean isMaximizer) {
         this.game = game;
         this.isMaximizer = isMaximizer;
-        this.children = new ArrayList<GameNode>();
+        this.children = new ArrayList<>();
+        this.value = getHeuristic();
+        this.move = null;
     }
 
     public static void main(String[] args) {
 
     }
 
-    public int getAlpha() {
-        return this.alpha;
-    }
-
-    public int getBeta() {
-        return this.beta;
-    }
-
+    /**
+     * Add a single node to the game tree
+     * @param node
+     */
     public void addChild(GameNode node) {
         children.add(node);
     }
 
+    /**
+     * Checks if the node has children
+     * @return
+     */
     public boolean hasChildren() {
         return children.size() > 0;
     }
@@ -61,9 +61,93 @@ public class GameNode {
      *
      * @return the value of the board
      */
-    public int getValue() {
+    public int getHeuristic() {
         int[] pieceCount = countPieces(game.getCurrentPlayer());
         return pieceCount[0] - pieceCount[1];
+    }
+
+    /**
+     * Get the gameboard associated with this node
+     * @return
+     */
+    public GameBoard getGame(){
+        return this.game;
+    }
+
+    /**
+     * Updates the state of the game
+     * @param game
+     */
+    public void updateGame(GameBoard game){
+        this.game = game;
+    }
+
+    /**
+     * Gets the value of this node
+     * @return
+     */
+    public int getValue(){
+        return this.value;
+    }
+
+    /**
+     * Sets the value of this node
+     * @param value
+     */
+    public void setValue(int value){
+        this.value = value;
+    }
+
+    /**
+     * Checks if this node is a maximizer meaning it chooses the max child node
+     * @return
+     */
+    public boolean isMaximizer(){
+        return this.isMaximizer;
+    }
+
+    /**
+     * Sets the move associated with this node
+     * @param move
+     */
+    public void setMove(Move move){
+        this.move = move;
+    }
+
+    /**
+     * Gets the move associated with this node
+     * @return
+     */
+    public Move getMove(){
+        return this.move;
+    }
+
+    /**
+     * Adds a child for all of the legal moves on this gameboard
+     */
+    public void addChildren(){
+        for(Move move : this.game.getLegalMoves()){
+            GameBoard nextGame = new GameBoard(this.game);
+            nextGame.movePiece(move);
+            GameNode node = new GameNode(nextGame, !isMaximizer);
+            node.setMove(move);
+            this.addChild(node);
+        }
+    }
+
+    /**
+     * Clears all children from this node
+     **/
+    public void clearChildren(){
+        this.children = new ArrayList<>();
+    }
+
+    /**
+     * Gets all the children of this node
+     * @return
+     */
+    public List<GameNode> getChildren(){
+        return this.children;
     }
 
     /**

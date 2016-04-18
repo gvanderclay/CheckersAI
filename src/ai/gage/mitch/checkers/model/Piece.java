@@ -23,6 +23,11 @@ public class Piece {
         this.owner = player;
     }
 
+    public Piece(Piece piece){
+        this.owner = piece.getOwner();
+        this.isKing = piece.isKing();
+    }
+
     public static void main(String[] args){
         Move move = new Move(1,1,0,0);
         System.out.print(new Piece(Player.BLACK).correctDirection(move));

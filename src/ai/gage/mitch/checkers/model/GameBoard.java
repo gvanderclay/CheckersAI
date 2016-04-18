@@ -29,9 +29,36 @@ public class GameBoard {
         this.gameOver = false;
     }
 
+    /**
+     * Constructor that makes a copy of another gameboard
+     * @param game
+     */
+    public GameBoard(GameBoard game){
+        this.currentPlayer = game.currentPlayer;
+        this.legalMoves = game.getLegalMoves();
+        this.gameOver = game.isGameOver();
+        this.board = copyBoard(game.getBoard());
+    }
+
     public static void main(String args[]){
         GameBoard game = new GameBoard();
         System.out.println(game.movePiece(new Move(2,0, 3,1)));
+    }
+
+    /**
+     * Makes a copy of a grid of pieces
+     * @param board
+     * @return
+     */
+    private Piece[][] copyBoard(Piece[][] board){
+        Piece[][] newBoard = new Piece[BOARD_SIZE][BOARD_SIZE];
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int column = 0; column < BOARD_SIZE; column++) {
+                if(board[row][column] != null)
+                    newBoard[row][column] = new Piece(board[row][column]);
+            }
+        }
+        return newBoard;
     }
 
     /**
