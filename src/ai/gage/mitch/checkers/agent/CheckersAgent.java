@@ -78,8 +78,13 @@ public class CheckersAgent {
         // get the heuristic value of the best node
         int moveIndex = alphaBeta(headNode, depth, Integer.MIN_VALUE, Integer.MAX_VALUE);
         // Go through possible moves and choose one that matches our best hueristic guess
+        System.out.println(moveIndex);
         for(GameNode node: this.headNode.getChildren()){
+            System.out.println(node.getValue() + "," + node.getMove());
             if(node.getValue() == moveIndex){
+                return node.getMove();
+            }
+            else if(node.getValue() == -moveIndex){
                 return node.getMove();
             }
         }

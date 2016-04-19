@@ -96,11 +96,11 @@ public class GamePanel extends JPanel {
 		int returnValue = JOptionPane.showOptionDialog(null, "Please choose an AI difficulty", "Difficulty",
 				JOptionPane.DEFAULT_OPTION, 0, null, difButtons, difButtons[0]);
 		if(returnValue == 0) {
-			difficulty = 2;
+			difficulty = 1;
 		}else if(returnValue == 1) {
 			difficulty = 4;
 		}else if(returnValue == 2){
-			difficulty = 8;
+			difficulty = 7;
 		}else{
 			difficulty = 4;
 		}
