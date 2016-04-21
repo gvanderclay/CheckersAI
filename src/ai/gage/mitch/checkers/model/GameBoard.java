@@ -25,7 +25,7 @@ public class GameBoard {
     public GameBoard() {
         initBoard();
         this.currentPlayer = Player.BLACK;
-        this.legalMoves = getLegalMoves();
+        this.legalMoves = getAllLegalMoves();
         this.gameOver = false;
     }
 
@@ -35,7 +35,7 @@ public class GameBoard {
      */
     public GameBoard(GameBoard game){
         this.currentPlayer = game.currentPlayer;
-        this.legalMoves = game.getLegalMoves();
+        this.legalMoves = game.getAllLegalMoves();
         this.gameOver = game.isGameOver();
         this.board = copyBoard(game.getBoard());
     }
@@ -88,11 +88,15 @@ public class GameBoard {
         return board[row][column];
     }
 
+    public ArrayList<Move> getLegalMoves(){
+        return this.legalMoves;
+    }
+
     /**
      * Get an ArrayList of all the legal moves
      * @return list of legal moves
      */
-    public ArrayList<Move> getLegalMoves() {
+    public ArrayList<Move> getAllLegalMoves() {
         ArrayList<Move> legalMoves = new ArrayList<>();
         // check for legal jumps for all pieces
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -203,7 +207,7 @@ public class GameBoard {
                 }
             }
             currentPlayer = currentPlayer.next();
-            legalMoves = getLegalMoves();
+            legalMoves = getAllLegalMoves();
             checkGameOverStatus();
             return true;
         }
